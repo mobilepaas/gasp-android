@@ -14,12 +14,9 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.app.ListFragment;
 import android.app.LoaderManager.LoaderCallbacks;
-import android.content.Intent;
 import android.content.Loader;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
 import android.util.Log;
-import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
