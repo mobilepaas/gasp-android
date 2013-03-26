@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Preference xmlns:android="http://schemas.android.com/apk/res/android" >  
+    <PreferenceCategory 
+        android:title="Gasp! Server"
+        android:key="gasp_server">
+
+        <EditTextPreference
+            android:key="gasp_endpoint_uri"
+            android:title="Gasp! Server URI" 
+            android:summary="Give base URI for Gasp Server endpoint "
+            android:dialogTitle="Gasp! Server Endpoint"
+            android:dialogMessage="Choose Gasp! Server Endpoing URI"    
+            android:defaultValue="http://gasp.mqprichard.cloudbees.net" 
+        />
+    </PreferenceCategory>    
+</Preference>
