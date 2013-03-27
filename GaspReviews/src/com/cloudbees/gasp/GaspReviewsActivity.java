@@ -105,7 +105,7 @@ public class GaspReviewsActivity extends Activity
         // Check to see if we got an HTTP 200 code and have some data.
         if (code == 200 && !json.equals("")) {
         	
-        	Log.i( TAG, "gasp server returns:" + json );
+        	Log.i( TAG, "RESTLoader returns:" + json );
            
         	JsonParser parser = new JsonParser();
         	JsonArray array = parser.parse(json).getAsJsonArray();
