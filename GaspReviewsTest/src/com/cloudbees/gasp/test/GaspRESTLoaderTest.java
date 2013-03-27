@@ -9,10 +9,9 @@ import android.util.Log;
 
 public class GaspRESTLoaderTest extends LoaderTestCase {
     private static final String TAG = GaspRESTLoaderTest.class.getName();
+    private static final Uri gaspReviewsUri = Uri.parse("http://gasp.mqprichard.cloudbees.net/reviews");
     
 	public void testRESTLoader() {
-		
-        Uri gaspReviewsUri = Uri.parse("http://gasp.mqprichard.cloudbees.net/reviews");
         Log.i(TAG, "Using Gasp Server URI: " + gaspReviewsUri );
         
 	    // Create & execute loader
@@ -22,6 +21,7 @@ public class GaspRESTLoaderTest extends LoaderTestCase {
 
 	    Log.i(TAG, "Received data: " + theResponse.getData());
 
+	    // Check for HTTP response code 200 and data
 	    assertEquals(theResponse.getCode(), 200);
 	    assertFalse(theResponse.getData().isEmpty());
 	}

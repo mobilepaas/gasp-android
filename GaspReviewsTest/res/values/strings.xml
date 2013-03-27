@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">GaspReviewsTestTest</string>
-    <string name="gasp_reviews_uri">http://gasp.mqprichard.cloudbees.net/reviews</string>
+    <string name="app_name">GaspReviewsTest</string>
 </resources>
