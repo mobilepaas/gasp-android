@@ -1,6 +1,7 @@
 package com.cloudbees.gasp;
 
 import com.cloudbees.gasp.loader.RESTLoader;
+
 import java.util.Iterator;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -14,9 +15,12 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.app.ListFragment;
 import android.app.LoaderManager.LoaderCallbacks;
+import android.content.Intent;
 import android.content.Loader;
 import android.content.SharedPreferences;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
@@ -44,30 +48,31 @@ public class GaspReviewsActivity extends Activity
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
-        setContentView(R.layout.activity_rest_loader);
+        // Set main content view for Gasp! Reviews
+        setContentView(R.layout.gasp_review_activity);
         
+        // Use the Fragments API to display review data
         FragmentManager fm = getFragmentManager();
-        ListFragment list =(ListFragment) fm.findFragmentById(R.id.fragment_content); 
+        ListFragment list =(ListFragment) fm.findFragmentById(R.id.gasp_review_content); 
         if (list == null){
         	list = new ListFragment();
         	FragmentTransaction ft = fm.beginTransaction();
-        	ft.add(R.id.fragment_content, list);
+        	ft.add(R.id.gasp_review_content, list);
         	ft.commit();
         }
         
-        mAdapter = new ArrayAdapter<String>(this, R.layout.item_label_list);        
+        // Array adapter provides access to the review list data
+        mAdapter = new ArrayAdapter<String>(this, R.layout.gasp_review_list);        
         list.setListAdapter(mAdapter);
         
-        // TODO: Add Preference Fragment and Activity to allow user settings
-        // For now, save REST server URI (@string/gasp_reviews_uri) in Shared Preferences
+        // Load shared preferences from res/xml/preferences.xml (first time only)
+        // Subsequent activations will use the saved shared preferences from the device
+        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
         SharedPreferences gaspSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        SharedPreferences.Editor gaspSharedPreferencesEditor = gaspSharedPreferences.edit();
-        gaspSharedPreferencesEditor.putString("gasp_reviews_uri", 
-        		getResources().getString(R.string.gasp_reviews_uri)).commit();
       
-        Log.i(TAG, "Using Gasp Server URI: " + gaspSharedPreferences.getString( "gasp_reviews_uri", "" ));
+        Log.i(TAG, "Using Gasp Server URI: " + gaspSharedPreferences.getString( "gasp_endpoint_uri", "" ));
         
-        Uri gaspReviewsUri = Uri.parse(gaspSharedPreferences.getString( "gasp_reviews_uri", "" ));
+        Uri gaspReviewsUri = Uri.parse(gaspSharedPreferences.getString( "gasp_endpoint_uri", "" ));
     
         // Loader arguments: LoaderManager will maintain the state of our Loaders
         // and reload if necessary. 
@@ -121,4 +126,20 @@ public class GaspReviewsActivity extends Activity
     @Override
     public void onLoaderReset(Loader<RESTLoader.RESTResponse> loader) {
     }
+    
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.options_menu_settings, menu);
+        return true;
+    }
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Single menu item only - need to handle multiple items if added
+		Intent intent = new Intent();
+        intent.setClass(GaspReviewsActivity.this, SetPreferencesActivity.class);
+        startActivityForResult(intent, 0); 
+		
+        return true;
+	}
 }

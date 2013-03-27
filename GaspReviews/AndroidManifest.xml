@@ -21,7 +21,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:label="Gasp Preferences" android:name="SetPreferenceActivity"></activity>
+        <activity 
+            android:label="Gasp Preferences" 
+            android:name="SetPreferencesActivity"></activity>
     </application>
 
 </manifest>
