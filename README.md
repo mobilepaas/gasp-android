@@ -26,7 +26,9 @@ a single test class (com.cloudbees.gasp.test.GaspRESTLoaderTest), which can be u
 
 The Gasp! endpoint url is set in GaspReviews/res/xml/preferences.xml (android:key="gasp_endpoint_uri"): this can be reset using Android shared preferences with the Options Menu (fn-cmd-F2 with the Android emulator on a MacBook). The first time the GaspReviewsActivity is run, it will load the default value of gasp_endpoint_uri, but subsequent activations will use the value stored using on the device's shared preferences. Note that the async loader will not pick up a change in the endpoint uri until the Activity is reloaded (typically when the app is restarted). The GaspReviews project uses gson for JSON parsing - the jar has been added to GaspReviews/libs. 
 
-To run the project in Eclipse ADT, git clone https://github.com/mqprichard/gasp-android.git and then Import -> Android -> Import existing Android projects from the root directory of the local repo.  You will need to add the GaspReviews project to the Eclipse Build Path for GaspREviewsTest. To run the Android JUnit tests in Jenkins, configure the Android emulator as per https://partnerdemo.ci.cloudbees.com/job/Android-dev/ and then run the following commands:
+To run the project in Eclipse ADT, use "git clone https://github.com/mqprichard/gasp-android.git" and then Import -> Android -> Import Existing Android Projects from the root directory of the local repo.  You will need to add the GaspReviews project to the Eclipse Build Path for GaspReviewsTest. 
+
+To run the Android JUnit tests in Jenkins, configure the Android emulator as per https://partnerdemo.ci.cloudbees.com/job/Android-dev/ and then run the following commands:
 
 Execute Shell:
 $JENKINS_ANDROID_HOME/tools/android update project --path GaspReviews --target "android-17" --subprojects
