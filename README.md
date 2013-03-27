@@ -31,11 +31,15 @@ To run the project in Eclipse ADT, use "git clone https://github.com/mqprichard/
 To run the Android JUnit tests in Jenkins, configure the Android emulator as per https://partnerdemo.ci.cloudbees.com/job/Android-dev/ and then run the following commands:
 
 Execute Shell:
+
 $JENKINS_ANDROID_HOME/tools/android update project --path GaspReviews --target "android-17" --subprojects
+
 $JENKINS_ANDROID_HOME/tools/android update test-project --path GaspReviewsTest --main ../GaspReviews
 
 Ant Build:
+
 Targets: clean debug install test
+
 Build File: GaspReviewsTest/build.xml
  
 This project is closely modeled on Neil Goodman's example of using Android Loaders for async REST data services. I have modified it to remove the Android support library, so that it requires a minimum Android target of 3.0 and uses android.app.Activity instead of android.support.v4.app.ActivityFragment. This simplifies unit testing, since com.cloudbees.gasp.test.GaspRESTLoaderTest can simply extend android.test.LoaderTestCase.
