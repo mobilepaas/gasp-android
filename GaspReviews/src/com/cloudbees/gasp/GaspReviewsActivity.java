@@ -1,13 +1,32 @@
 package com.cloudbees.gasp;
 
 import com.cloudbees.gasp.loader.RESTLoader;
+import com.cloudbees.gasp.model.GeoLocation;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.reflect.Type;
 import java.util.Iterator;
+import java.util.List;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.protocol.BasicHttpContext;
+import org.apache.http.protocol.HttpContext;
+
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
+import com.google.gson.reflect.TypeToken;
 
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.app.Activity;
@@ -83,6 +102,10 @@ public class GaspReviewsActivity extends Activity
         
         // Initialize the Loader.
         getLoaderManager().initLoader(LOADER_GASP_REVIEWS, args, this);
+        
+        // Use gasp-mongo REST service
+        new LongRunningRequest().execute();
+        new LongRunningPostRequest().execute();
     }
 
     @Override
@@ -142,4 +165,104 @@ public class GaspReviewsActivity extends Activity
 		
         return true;
 	}
+	
+    private class LongRunningRequest extends AsyncTask<Void, Void, String> {
+        protected String getASCIIContentFromEntity(HttpEntity entity)
+                throws IllegalStateException, IOException {
+            InputStream in = entity.getContent();
+            StringBuffer out = new StringBuffer();
+            int n = 1;
+            while (n > 0) {
+                byte[] b = new byte[4096];
+                n = in.read(b);
+                if (n > 0) out.append(new String(b, 0, n));
+            }
+            return out.toString();
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            HttpClient httpClient = new DefaultHttpClient();
+            HttpContext localContext = new BasicHttpContext();
+            HttpGet httpGet = new HttpGet(
+                    "http://gasp-mongo.mqprichard.cloudbees.net/locations/get");
+            String text = null;
+            try {
+                HttpResponse response = httpClient.execute(httpGet,
+                        localContext);
+                HttpEntity entity = response.getEntity();
+                text = getASCIIContentFromEntity(entity);
+                Log.i(TAG, text);
+                Gson gson = new Gson();
+                Type type = new TypeToken<List<GeoLocation>>(){}.getType();
+                List<GeoLocation> list = gson.fromJson(text, type);
+                Iterator<GeoLocation> iterator = list.iterator();
+                while(iterator.hasNext()){
+                    GeoLocation geoLocation = iterator.next();
+                    Log.i(TAG, geoLocation.getName());
+                    Log.i(TAG, " " + geoLocation.getFormattedAddress());
+                    Log.i(TAG, " " + String.valueOf(geoLocation.getLocation().getLng()));
+                    Log.i(TAG, " " + String.valueOf(geoLocation.getLocation().getLat()));
+                }
+            }
+            catch (Exception e) {
+                return e.getLocalizedMessage();
+            }
+            return text;
+        }
+    }
+    
+    private class LongRunningPostRequest extends AsyncTask<Void, Void, String> {
+        protected String getASCIIContentFromEntity(HttpEntity entity)
+                throws IllegalStateException, IOException {
+            InputStream in = entity.getContent();
+            StringBuffer out = new StringBuffer();
+            int n = 1;
+            while (n > 0) {
+                byte[] b = new byte[4096];
+                n = in.read(b);
+                if (n > 0) out.append(new String(b, 0, n));
+            }
+            return out.toString();
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            final String requestURI = "http://gasp-mongo.mqprichard.cloudbees.net/locations/geocenter";
+            final String requestBody = "{\"center\" : {\"lng\" : -122.1139858 , \"lat\" : 37.3774655 }, \"radius\" : 0.005}";
+            String text = null;
+            
+            HttpClient httpClient = new DefaultHttpClient();
+            HttpContext localContext = new BasicHttpContext();
+
+            try {
+                HttpPost httpPost = new HttpPost(requestURI);
+                httpPost.addHeader("Accept", "application/json");
+ 
+                StringEntity input = new StringEntity(requestBody);
+                input.setContentType("application/json");
+                httpPost.setEntity(input);
+
+                HttpResponse response = httpClient.execute(httpPost,localContext);
+                HttpEntity entity = response.getEntity();
+                text = getASCIIContentFromEntity(entity);
+                Log.i(TAG, text);
+                Gson gson = new Gson();
+                Type type = new TypeToken<List<GeoLocation>>(){}.getType();
+                List<GeoLocation> list = gson.fromJson(text, type);
+                Iterator<GeoLocation> iterator = list.iterator();
+                while(iterator.hasNext()){
+                    GeoLocation geoLocation = iterator.next();
+                    Log.i(TAG, geoLocation.getName());
+                    Log.i(TAG, " " + geoLocation.getFormattedAddress());
+                    Log.i(TAG, " " + String.valueOf(geoLocation.getLocation().getLng()));
+                    Log.i(TAG, " " + String.valueOf(geoLocation.getLocation().getLat()));
+                }
+            }
+            catch (Exception e) {
+                return e.getLocalizedMessage();
+            }
+            return text;
+        }
+    }    
 }
