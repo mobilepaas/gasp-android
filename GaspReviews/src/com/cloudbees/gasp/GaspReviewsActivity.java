@@ -104,8 +104,47 @@ public class GaspReviewsActivity extends Activity
         getLoaderManager().initLoader(LOADER_GASP_REVIEWS, args, this);
         
         // Use gasp-mongo REST service
-        new LongRunningRequest().execute();
-        new LongRunningPostRequest().execute();
+        new ReviewsRequest().execute();
+        
+        LocationsRequest locations = new LocationsRequest();
+        locations.setRequestBody("{\"center\" : {\"lng\" : -122.1139858 , \"lat\" : 37.3774655 }, \"radius\" : 0.005}");
+
+        try{
+            //Gson gson = new Gson();
+            //Type type = new TypeToken<List<GeoLocation>>(){}.getType();
+            //List<GeoLocation> locationList = gson.fromJson(locations.execute().get(), type);
+            List<GeoLocation> locationList = locations.execute().get();
+            Iterator<GeoLocation> iterator = locationList.iterator();
+            while(iterator.hasNext()){
+                GeoLocation geoLocation = iterator.next();
+                Log.i(TAG, geoLocation.getName());
+                Log.i(TAG, " " + geoLocation.getFormattedAddress());
+                Log.i(TAG, " " + String.valueOf(geoLocation.getLocation().getLng()));
+                Log.i(TAG, " " + String.valueOf(geoLocation.getLocation().getLat()));
+            }
+        }
+        catch (Exception e) {
+            Log.e(TAG, e.getLocalizedMessage());
+        }
+        
+        /*
+        try {
+            Gson gson = new Gson();
+            Type type = new TypeToken<List<GeoLocation>>(){}.getType();
+            List<GeoLocation> locationList = gson.fromJson(locations.getText(), type);
+            Iterator<GeoLocation> iterator = locationList.iterator();
+            while(iterator.hasNext()){
+                GeoLocation geoLocation = iterator.next();
+                Log.i(TAG, geoLocation.getName());
+                Log.i(TAG, " " + geoLocation.getFormattedAddress());
+                Log.i(TAG, " " + String.valueOf(geoLocation.getLocation().getLng()));
+                Log.i(TAG, " " + String.valueOf(geoLocation.getLocation().getLat()));
+            }
+        }
+        catch(Exception e){
+            Log.e(TAG, e.getLocalizedMessage());
+        }
+        */
     }
 
     @Override
@@ -166,7 +205,7 @@ public class GaspReviewsActivity extends Activity
         return true;
 	}
 	
-    private class LongRunningRequest extends AsyncTask<Void, Void, String> {
+    private class ReviewsRequest extends AsyncTask<Void, Void, String> {
         protected String getASCIIContentFromEntity(HttpEntity entity)
                 throws IllegalStateException, IOException {
             InputStream in = entity.getContent();
@@ -212,7 +251,36 @@ public class GaspReviewsActivity extends Activity
         }
     }
     
-    private class LongRunningPostRequest extends AsyncTask<Void, Void, String> {
+    private class LocationsRequest extends AsyncTask<Void, Void, List<GeoLocation>> {
+        
+        private final String requestURI = "http://gasp-mongo.mqprichard.cloudbees.net/locations/geocenter";
+        private String requestBody = null;
+        private String responseBody = null;
+        private List<GeoLocation> geoLocations = null;
+
+        public void setRequestBody(String requestBody) {
+            this.requestBody = requestBody;
+        }
+
+        private String getResponseBody() {
+            return responseBody;
+        }
+
+        private void setGeoLocations(List<GeoLocation> geoLocations) {
+            this.geoLocations = geoLocations;
+        }
+
+        public List<GeoLocation> getGeoLocations() {
+            return geoLocations;
+        }
+        
+        private void parseJson() {
+            Gson gson = new Gson();
+            Type type = new TypeToken<List<GeoLocation>>(){}.getType();
+            List<GeoLocation> locationList = gson.fromJson(getResponseBody(), type);
+            this.setGeoLocations(locationList);    
+        }
+
         protected String getASCIIContentFromEntity(HttpEntity entity)
                 throws IllegalStateException, IOException {
             InputStream in = entity.getContent();
@@ -227,11 +295,8 @@ public class GaspReviewsActivity extends Activity
         }
 
         @Override
-        protected String doInBackground(Void... params) {
-            final String requestURI = "http://gasp-mongo.mqprichard.cloudbees.net/locations/geocenter";
-            final String requestBody = "{\"center\" : {\"lng\" : -122.1139858 , \"lat\" : 37.3774655 }, \"radius\" : 0.005}";
-            String text = null;
-            
+        protected List<GeoLocation> doInBackground(Void... params) {
+
             HttpClient httpClient = new DefaultHttpClient();
             HttpContext localContext = new BasicHttpContext();
 
@@ -245,24 +310,14 @@ public class GaspReviewsActivity extends Activity
 
                 HttpResponse response = httpClient.execute(httpPost,localContext);
                 HttpEntity entity = response.getEntity();
-                text = getASCIIContentFromEntity(entity);
-                Log.i(TAG, text);
-                Gson gson = new Gson();
-                Type type = new TypeToken<List<GeoLocation>>(){}.getType();
-                List<GeoLocation> list = gson.fromJson(text, type);
-                Iterator<GeoLocation> iterator = list.iterator();
-                while(iterator.hasNext()){
-                    GeoLocation geoLocation = iterator.next();
-                    Log.i(TAG, geoLocation.getName());
-                    Log.i(TAG, " " + geoLocation.getFormattedAddress());
-                    Log.i(TAG, " " + String.valueOf(geoLocation.getLocation().getLng()));
-                    Log.i(TAG, " " + String.valueOf(geoLocation.getLocation().getLat()));
-                }
+                responseBody = getASCIIContentFromEntity(entity);
+                Log.i(TAG, responseBody);
+                this.parseJson();
             }
             catch (Exception e) {
-                return e.getLocalizedMessage();
+                Log.e(TAG, e.getLocalizedMessage());
             }
-            return text;
+            return this.getGeoLocations();
         }
     }    
 }
