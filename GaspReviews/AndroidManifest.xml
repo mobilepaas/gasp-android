@@ -23,7 +23,8 @@
         </activity>
         <activity 
             android:label="Gasp Preferences" 
-            android:name="SetPreferencesActivity"></activity>
+            android:name="SetPreferencesActivity">
+        </activity>
     </application>
 
 </manifest>
