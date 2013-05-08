@@ -1,4 +1,6 @@
-package com.cloudbees.gasp;
+package com.cloudbees.gasp.activity;
+
+import com.cloudbees.gasp.fragment.PreferencesFragment;
 
 import android.app.Activity;
 import android.os.Bundle;

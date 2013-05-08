@@ -1,9 +1,9 @@
-package com.cloudbees.gasp;
+package com.cloudbees.gasp.fragment;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.cloudbees.gasp.TwitterRESTServiceActivity;
+import com.cloudbees.gasp.activity.TwitterRESTServiceActivity;
 import com.cloudbees.gasp.service.RESTService;
 
 import org.json.JSONArray;

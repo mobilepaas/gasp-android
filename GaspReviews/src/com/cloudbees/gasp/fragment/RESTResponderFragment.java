@@ -1,4 +1,4 @@
-package com.cloudbees.gasp;
+package com.cloudbees.gasp.fragment;
 
 import com.cloudbees.gasp.service.RESTService;
 

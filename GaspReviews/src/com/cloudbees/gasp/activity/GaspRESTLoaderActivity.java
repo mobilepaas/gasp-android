@@ -1,5 +1,10 @@
-package com.cloudbees.gasp;
+package com.cloudbees.gasp.activity;
 
+import com.cloudbees.gasp.R;
+import com.cloudbees.gasp.R.id;
+import com.cloudbees.gasp.R.layout;
+import com.cloudbees.gasp.R.menu;
+import com.cloudbees.gasp.R.xml;
 import com.cloudbees.gasp.loader.RESTLoader;
 import com.cloudbees.gasp.model.GeoLocation;
 

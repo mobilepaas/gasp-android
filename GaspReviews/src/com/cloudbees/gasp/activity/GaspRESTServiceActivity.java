@@ -1,4 +1,10 @@
-package com.cloudbees.gasp;
+package com.cloudbees.gasp.activity;
+
+import com.cloudbees.gasp.R;
+import com.cloudbees.gasp.R.id;
+import com.cloudbees.gasp.R.layout;
+import com.cloudbees.gasp.R.menu;
+import com.cloudbees.gasp.fragment.GaspReviewsResponderFragment;
 
 import android.app.Activity;
 import android.app.FragmentManager;
