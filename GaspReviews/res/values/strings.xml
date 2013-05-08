@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Gasp! Reviews</string>
+    <string name="app_name_RESTLoader">Gasp! Reviews (REST Loader)</string>
+    <string name="app_name_RESTService">Gasp! Reviews (REST Service)</string>
+    <string name="app_name_TwitterService">Gasp! CloudBees Twitter Feed</string>
     <string name="settings">Gasp! Settings</string>
     <string name="gasp_reviews_uri">http://gasp.mqprichard.cloudbees.net/reviews</string>
     <string name="gasp_network_error">Failed to load Gasp! reviews: Please check your internet settings</string>

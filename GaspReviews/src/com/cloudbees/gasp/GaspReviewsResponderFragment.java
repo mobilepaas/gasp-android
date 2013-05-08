@@ -42,7 +42,10 @@ public class GaspReviewsResponderFragment extends RESTResponderFragment {
 
             mAdapter = new ArrayAdapter<String>(activity, 0);
             mList = new ArrayList<String>();
-            
+
+            // Load shared preferences from res/xml/preferences.xml (first time only)
+            // Subsequent activations will use the saved shared preferences from the device
+            PreferenceManager.setDefaultValues(activity, R.xml.preferences, false);
             SharedPreferences gaspSharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
             Log.i(TAG, "Using Gasp Server URI: " + gaspSharedPreferences.getString( "gasp_endpoint_uri", "" ));           
             Uri gaspReviewsUri = Uri.parse(gaspSharedPreferences.getString( "gasp_endpoint_uri", "" ));

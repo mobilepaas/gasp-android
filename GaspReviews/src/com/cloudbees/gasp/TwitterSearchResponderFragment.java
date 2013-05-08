@@ -54,7 +54,7 @@ public class TwitterSearchResponderFragment extends RESTResponderFragment {
             // we could have just used Uri.Builder and appendQueryParameter()
             // here, but I wanted to illustrate how to use the Bundle params.
             Bundle params = new Bundle();
-            params.putString("q", "android");
+            params.putString("q", "cloudbees");
             
             intent.putExtra(RESTService.EXTRA_PARAMS, params);
             intent.putExtra(RESTService.EXTRA_RESULT_RECEIVER, getResultReceiver());
@@ -108,6 +108,7 @@ public class TwitterSearchResponderFragment extends RESTResponderFragment {
             
             for (int i = 0; i < tweets.length(); i++) {
                 JSONObject tweet = tweets.getJSONObject(i);
+                Log.d(TAG, "Tweet: " + tweet.getString("text"));
                 tweetList.add(tweet.getString("text"));
             }
         }

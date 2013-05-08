@@ -4,7 +4,10 @@ import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.app.ListFragment;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 
 public class TwitterRESTServiceActivity extends Activity {
@@ -29,7 +32,8 @@ public class TwitterRESTServiceActivity extends Activity {
         
         // RESTResponderFragments call setRetainedInstance(true) in their onCreate() method. So that means
         // we need to check if our FragmentManager is already storing an instance of the responder.
-        TwitterSearchResponderFragment responder = (TwitterSearchResponderFragment) fm.findFragmentByTag("RESTResponder");
+        TwitterSearchResponderFragment responder = 
+                (TwitterSearchResponderFragment) fm.findFragmentByTag("RESTResponder");
         if (responder == null) {
             responder = new TwitterSearchResponderFragment();
             
@@ -46,5 +50,21 @@ public class TwitterRESTServiceActivity extends Activity {
 
     public ArrayAdapter<String> getArrayAdapter() {
         return mAdapter;
+    }
+    
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.options_menu_settings, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Single menu item only - need to handle multiple items if added
+        Intent intent = new Intent();
+        intent.setClass(TwitterRESTServiceActivity.this, SetPreferencesActivity.class);
+        startActivityForResult(intent, 0); 
+        
+        return true;
     }
 }
