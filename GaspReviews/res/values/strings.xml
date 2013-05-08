@@ -3,5 +3,6 @@
     <string name="app_name">Gasp! Reviews</string>
     <string name="settings">Gasp! Settings</string>
     <string name="gasp_reviews_uri">http://gasp.mqprichard.cloudbees.net/reviews</string>
+    <string name="gasp_network_error">Failed to load Gasp! reviews: Please check your internet settings</string>
     <string name="menu_settings">Gasp! Settings</string>
 </resources>

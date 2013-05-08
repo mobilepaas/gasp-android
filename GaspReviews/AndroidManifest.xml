@@ -14,7 +14,7 @@
         android:allowBackup="true">
         <service android:name=".service.RESTService" />
 
-        <activity android:name="RESTServiceActivity" >
+        <activity android:name="GaspRESTServiceActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

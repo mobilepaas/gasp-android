@@ -90,7 +90,6 @@ public class GaspReviewsActivity extends Activity
         SharedPreferences gaspSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
       
         Log.i(TAG, "Using Gasp Server URI: " + gaspSharedPreferences.getString( "gasp_endpoint_uri", "" ));
-        
         Uri gaspReviewsUri = Uri.parse(gaspSharedPreferences.getString( "gasp_endpoint_uri", "" ));
     
         // Loader arguments: LoaderManager will maintain the state of our Loaders
@@ -110,9 +109,6 @@ public class GaspReviewsActivity extends Activity
         locations.setRequestBody("{\"center\" : {\"lng\" : -122.1139858 , \"lat\" : 37.3774655 }, \"radius\" : 0.005}");
 
         try{
-            //Gson gson = new Gson();
-            //Type type = new TypeToken<List<GeoLocation>>(){}.getType();
-            //List<GeoLocation> locationList = gson.fromJson(locations.execute().get(), type);
             List<GeoLocation> locationList = locations.execute().get();
             Iterator<GeoLocation> iterator = locationList.iterator();
             while(iterator.hasNext()){
@@ -126,25 +122,6 @@ public class GaspReviewsActivity extends Activity
         catch (Exception e) {
             Log.e(TAG, e.getLocalizedMessage());
         }
-        
-        /*
-        try {
-            Gson gson = new Gson();
-            Type type = new TypeToken<List<GeoLocation>>(){}.getType();
-            List<GeoLocation> locationList = gson.fromJson(locations.getText(), type);
-            Iterator<GeoLocation> iterator = locationList.iterator();
-            while(iterator.hasNext()){
-                GeoLocation geoLocation = iterator.next();
-                Log.i(TAG, geoLocation.getName());
-                Log.i(TAG, " " + geoLocation.getFormattedAddress());
-                Log.i(TAG, " " + String.valueOf(geoLocation.getLocation().getLng()));
-                Log.i(TAG, " " + String.valueOf(geoLocation.getLocation().getLat()));
-            }
-        }
-        catch(Exception e){
-            Log.e(TAG, e.getLocalizedMessage());
-        }
-        */
     }
 
     @Override
@@ -238,10 +215,10 @@ public class GaspReviewsActivity extends Activity
                 Iterator<GeoLocation> iterator = list.iterator();
                 while(iterator.hasNext()){
                     GeoLocation geoLocation = iterator.next();
-                    Log.i(TAG, geoLocation.getName());
-                    Log.i(TAG, " " + geoLocation.getFormattedAddress());
-                    Log.i(TAG, " " + String.valueOf(geoLocation.getLocation().getLng()));
-                    Log.i(TAG, " " + String.valueOf(geoLocation.getLocation().getLat()));
+                    Log.d(TAG, geoLocation.getName());
+                    Log.d(TAG, " " + geoLocation.getFormattedAddress());
+                    Log.d(TAG, " " + String.valueOf(geoLocation.getLocation().getLng()));
+                    Log.d(TAG, " " + String.valueOf(geoLocation.getLocation().getLat()));
                 }
             }
             catch (Exception e) {
