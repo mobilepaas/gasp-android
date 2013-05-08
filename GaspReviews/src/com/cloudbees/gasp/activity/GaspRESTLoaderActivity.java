@@ -244,6 +244,10 @@ public class GaspRESTLoaderActivity extends Activity
             this.setRequestBody(new Gson().toJson(query).toString());
         }
 
+        private String getRequestURI() {
+            return requestURI;
+        }
+
         private void setRequestBody(String requestBody) {
             this.requestBody = requestBody;
         }
@@ -287,7 +291,7 @@ public class GaspRESTLoaderActivity extends Activity
             HttpContext localContext = new BasicHttpContext();
 
             try {
-                HttpPost httpPost = new HttpPost(requestURI);
+                HttpPost httpPost = new HttpPost(this.getRequestURI());
                 httpPost.addHeader("Accept", "application/json");
  
                 StringEntity input = new StringEntity(requestBody);
