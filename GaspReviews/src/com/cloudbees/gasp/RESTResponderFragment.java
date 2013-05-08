@@ -1,10 +1,11 @@
 package com.cloudbees.gasp;
 
 import com.cloudbees.gasp.service.RESTService;
+
+import android.app.Fragment;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.ResultReceiver;
-import android.support.v4.app.Fragment;
 
 public abstract class RESTResponderFragment extends Fragment {
     

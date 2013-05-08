@@ -1,13 +1,13 @@
 package com.cloudbees.gasp;
 
+import android.app.Activity;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
+import android.app.ListFragment;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.app.ListFragment;
 import android.widget.ArrayAdapter;
 
-public class RESTServiceActivity extends FragmentActivity {
+public class RESTServiceActivity extends Activity {
     
     private ArrayAdapter<String> mAdapter;
     
@@ -18,7 +18,7 @@ public class RESTServiceActivity extends FragmentActivity {
         
         mAdapter = new ArrayAdapter<String>(this, R.layout.item_label_list);
         
-        FragmentManager     fm = getSupportFragmentManager();
+        FragmentManager     fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         
         // Since we are using the Android Compatibility library
