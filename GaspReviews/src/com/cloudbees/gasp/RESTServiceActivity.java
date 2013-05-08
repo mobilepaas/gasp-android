@@ -21,9 +21,6 @@ public class RESTServiceActivity extends Activity {
         FragmentManager     fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         
-        // Since we are using the Android Compatibility library
-        // we have to use FragmentActivity. So, we use ListFragment
-        // to get the same functionality as ListActivity.
         ListFragment list = new ListFragment();
         ft.add(R.id.fragment_content, list);
         

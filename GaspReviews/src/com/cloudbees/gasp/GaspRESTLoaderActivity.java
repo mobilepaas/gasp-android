@@ -52,9 +52,9 @@ import android.widget.Toast;
  * @author Mark Prichard
  *
  */
-public class GaspReviewsActivity extends Activity 
+public class GaspRESTLoaderActivity extends Activity 
 		implements LoaderCallbacks<RESTLoader.RESTResponse> {
-    private static final String TAG = GaspReviewsActivity.class.getName();
+    private static final String TAG = GaspRESTLoaderActivity.class.getName();
     
     private static final int LOADER_GASP_REVIEWS = 0x1;
     
@@ -176,7 +176,7 @@ public class GaspReviewsActivity extends Activity
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// Single menu item only - need to handle multiple items if added
 		Intent intent = new Intent();
-        intent.setClass(GaspReviewsActivity.this, SetPreferencesActivity.class);
+        intent.setClass(GaspRESTLoaderActivity.this, SetPreferencesActivity.class);
         startActivityForResult(intent, 0); 
 		
         return true;

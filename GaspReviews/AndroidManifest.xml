@@ -28,7 +28,7 @@
         android:label="@string/app_name" 
         android:allowBackup="true" >
         <activity
-            android:name="com.cloudbees.gasp.GaspReviewsActivity"
+            android:name="com.cloudbees.gasp.GaspRESTLoaderActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
