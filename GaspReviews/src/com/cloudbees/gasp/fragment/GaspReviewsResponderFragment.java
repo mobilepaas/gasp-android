@@ -15,8 +15,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import com.cloudbees.gasp.R;
-import com.cloudbees.gasp.R.string;
-import com.cloudbees.gasp.R.xml;
 import com.cloudbees.gasp.activity.GaspRESTServiceActivity;
 import com.cloudbees.gasp.service.RESTService;
 import com.google.gson.JsonArray;

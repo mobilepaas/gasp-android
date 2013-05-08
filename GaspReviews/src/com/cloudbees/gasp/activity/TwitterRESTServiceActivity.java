@@ -1,11 +1,5 @@
 package com.cloudbees.gasp.activity;
 
-import com.cloudbees.gasp.R;
-import com.cloudbees.gasp.R.id;
-import com.cloudbees.gasp.R.layout;
-import com.cloudbees.gasp.R.menu;
-import com.cloudbees.gasp.fragment.TwitterSearchResponderFragment;
-
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -15,6 +9,9 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
+
+import com.cloudbees.gasp.R;
+import com.cloudbees.gasp.fragment.TwitterSearchResponderFragment;
 
 public class TwitterRESTServiceActivity extends Activity {
     

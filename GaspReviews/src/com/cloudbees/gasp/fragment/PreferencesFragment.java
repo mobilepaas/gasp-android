@@ -1,10 +1,9 @@
 package com.cloudbees.gasp.fragment;
 
-import com.cloudbees.gasp.R;
-import com.cloudbees.gasp.R.xml;
-
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
+
+import com.cloudbees.gasp.R;
 
 public class PreferencesFragment extends PreferenceFragment {
 

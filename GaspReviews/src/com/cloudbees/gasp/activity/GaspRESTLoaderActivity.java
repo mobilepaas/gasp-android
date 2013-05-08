@@ -1,13 +1,5 @@
 package com.cloudbees.gasp.activity;
 
-import com.cloudbees.gasp.R;
-import com.cloudbees.gasp.R.id;
-import com.cloudbees.gasp.R.layout;
-import com.cloudbees.gasp.R.menu;
-import com.cloudbees.gasp.R.xml;
-import com.cloudbees.gasp.loader.RESTLoader;
-import com.cloudbees.gasp.model.GeoLocation;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Type;
@@ -24,16 +16,6 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
-import com.google.gson.reflect.TypeToken;
-
-import android.net.Uri;
-import android.os.AsyncTask;
-import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -42,11 +24,24 @@ import android.app.LoaderManager.LoaderCallbacks;
 import android.content.Intent;
 import android.content.Loader;
 import android.content.SharedPreferences;
+import android.net.Uri;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
+
+import com.cloudbees.gasp.R;
+import com.cloudbees.gasp.loader.RESTLoader;
+import com.cloudbees.gasp.model.GeoLocation;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
+import com.google.gson.reflect.TypeToken;
 
 /**
  * A simple ListActivity that displays Gasp! reviews
