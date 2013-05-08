@@ -3,7 +3,7 @@ package com.cloudbees.gasp;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.cloudbees.gasp.RESTServiceActivity;
+import com.cloudbees.gasp.TwitterRESTServiceActivity;
 import com.cloudbees.gasp.service.RESTService;
 
 import org.json.JSONArray;
@@ -38,7 +38,7 @@ public class TwitterSearchResponderFragment extends RESTResponderFragment {
     }
 
     private void setTweets() {
-        RESTServiceActivity activity = (RESTServiceActivity) getActivity();
+        TwitterRESTServiceActivity activity = (TwitterRESTServiceActivity) getActivity();
         
         if (mTweets == null && activity != null) {
             // This is where we make our REST call to the service. We also pass in our ResultReceiver

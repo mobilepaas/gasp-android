@@ -7,7 +7,7 @@ import android.app.ListFragment;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 
-public class RESTServiceActivity extends Activity {
+public class TwitterRESTServiceActivity extends Activity {
     
     private ArrayAdapter<String> mAdapter;
     
