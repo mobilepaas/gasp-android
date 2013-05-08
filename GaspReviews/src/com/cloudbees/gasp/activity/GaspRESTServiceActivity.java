@@ -30,7 +30,6 @@ public class GaspRESTServiceActivity extends Activity {
         ListFragment list = new ListFragment();
         ft.add(R.id.fragment_content, list);
         
-        // Let's set our list adapter to a simple ArrayAdapter.
         list.setListAdapter(mAdapter);
         
         // RESTResponderFragments call setRetainedInstance(true) in their onCreate() method. So that means
@@ -44,9 +43,6 @@ public class GaspRESTServiceActivity extends Activity {
             ft.add(responder, "RESTResponder");
         }
 
-        // Make sure you commit the FragmentTransaction or your fragments
-        // won't get added to your FragmentManager. Forgetting to call ft.commit()
-        // is a really common mistake when starting out with Fragments.
         ft.commit();
     }
 
