@@ -37,6 +37,8 @@ import android.widget.Toast;
 import com.cloudbees.gasp.R;
 import com.cloudbees.gasp.loader.RESTLoader;
 import com.cloudbees.gasp.model.GeoLocation;
+import com.cloudbees.gasp.model.Location;
+import com.cloudbees.gasp.model.SpatialQuery;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -105,10 +107,12 @@ public class GaspRESTLoaderActivity extends Activity
         // Use gasp-mongo REST service
         new ReviewsRequest().execute();
         
-        LocationsRequest locations = new LocationsRequest();
-        locations.setRequestBody("{\"center\" : {\"lng\" : -122.1139858 , \"lat\" : 37.3774655 }, \"radius\" : 0.005}");
-
         try{
+            LocationsRequest locations = new LocationsRequest( 
+                                            new SpatialQuery( 
+                                               new Location( -122.1139858, 37.3774655), 
+                                               0.005 ));
+
             List<GeoLocation> locationList = locations.execute().get();
             Iterator<GeoLocation> iterator = locationList.iterator();
             while(iterator.hasNext()){
@@ -235,7 +239,12 @@ public class GaspRESTLoaderActivity extends Activity
         private String responseBody = null;
         private List<GeoLocation> geoLocations = null;
 
-        public void setRequestBody(String requestBody) {
+        public LocationsRequest(SpatialQuery query) {
+            super();      
+            this.setRequestBody(new Gson().toJson(query).toString());
+        }
+
+        private void setRequestBody(String requestBody) {
             this.requestBody = requestBody;
         }
 
