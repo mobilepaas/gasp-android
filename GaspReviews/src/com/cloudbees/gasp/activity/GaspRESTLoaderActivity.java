@@ -162,7 +162,10 @@ public class GaspRESTLoaderActivity extends Activity
             
         }
         else {
-        	Toast.makeText(this, "Failed to load reviews. Check your internet settings.", Toast.LENGTH_SHORT).show(); 
+        	Toast.makeText(this, 
+        	                getResources().getString(R.string.gasp_network_error),
+        	                Toast.LENGTH_SHORT)
+        	                .show(); 
         }
     }
 

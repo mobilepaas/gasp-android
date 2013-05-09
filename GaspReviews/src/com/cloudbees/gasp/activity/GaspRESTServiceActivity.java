@@ -34,7 +34,8 @@ public class GaspRESTServiceActivity extends Activity {
         
         // RESTResponderFragments call setRetainedInstance(true) in their onCreate() method. So that means
         // we need to check if our FragmentManager is already storing an instance of the responder.
-        GaspReviewsResponderFragment responder = (GaspReviewsResponderFragment) fm.findFragmentByTag("RESTResponder");
+        GaspReviewsResponderFragment responder = 
+                (GaspReviewsResponderFragment) fm.findFragmentByTag("RESTResponder");
         if (responder == null) {
             responder = new GaspReviewsResponderFragment();
             

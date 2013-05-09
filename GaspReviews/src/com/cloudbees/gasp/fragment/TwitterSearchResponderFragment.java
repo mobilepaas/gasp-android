@@ -3,6 +3,7 @@ package com.cloudbees.gasp.fragment;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.cloudbees.gasp.R;
 import com.cloudbees.gasp.activity.TwitterRESTServiceActivity;
 import com.cloudbees.gasp.service.RESTService;
 
@@ -94,7 +95,10 @@ public class TwitterSearchResponderFragment extends RESTResponderFragment {
         else {
             Activity activity = getActivity();
             if (activity != null) {
-                Toast.makeText(activity, "Failed to load Twitter data. Check your internet settings.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(activity, 
+                                getResources().getString(R.string.gasp_network_error), 
+                                Toast.LENGTH_SHORT)
+                                .show();
             }
         }
     }
