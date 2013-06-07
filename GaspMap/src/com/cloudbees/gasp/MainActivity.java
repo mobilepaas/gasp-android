@@ -3,7 +3,6 @@ package com.cloudbees.gasp;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
@@ -42,8 +41,30 @@ import android.view.Menu;
 
 public class MainActivity extends FragmentActivity {
     private static final String TAG = MainActivity.class.getName();
+    private static final String gaspURL = "http://gasp-mongo.mqprichard.cloudbees.net/locations/get";
 
-    private class LongRunningGetIO extends AsyncTask<Void, Void, String> {
+    private List<GeoLocation> locations = null;
+    private GoogleMap map = null;
+
+    public GoogleMap getMap() {
+        return map;
+    }
+
+    public void setMap(GoogleMap map) {
+        this.map = map;
+    }
+
+    public List<GeoLocation> getLocations() {
+        return locations;
+    }
+
+    public void setLocations(List<GeoLocation> locations) {
+        this.locations = locations;
+    }
+
+    private class GaspLocationService extends AsyncTask<Void, Void, String> {
+        private List<GeoLocation> list;
+
         protected String getASCIIContentFromEntity(HttpEntity entity) throws IllegalStateException, IOException {
             InputStream in = entity.getContent();
             StringBuffer out = new StringBuffer();
@@ -60,30 +81,42 @@ public class MainActivity extends FragmentActivity {
         protected String doInBackground(Void... params) {
             HttpClient httpClient = new DefaultHttpClient();
             HttpContext localContext = new BasicHttpContext();
-            HttpGet httpGet = new HttpGet("http://gasp-mongo.mqprichard.cloudbees.net/locations/get");
+            HttpGet httpGet = new HttpGet(gaspURL);
             String text = null;
             try {
                 HttpResponse response = httpClient.execute(httpGet, localContext);
                 HttpEntity entity = response.getEntity();
                 text = getASCIIContentFromEntity(entity);
-                Log.i(TAG, text);
+                Log.d(TAG, "Gasp Locations");
+                Log.d(TAG, text);
+
                 Gson gson = new Gson();
-                Type type = new TypeToken<List<GeoLocation>>() {
-                }.getType();
-                List<GeoLocation> list = gson.fromJson(text, type);
+                Type type = new TypeToken<List<GeoLocation>>() {}.getType();
+                list = gson.fromJson(text, type);
                 Iterator<GeoLocation> iterator = list.iterator();
                 while (iterator.hasNext()) {
                     GeoLocation geoLocation = iterator.next();
-                    Log.i(TAG, geoLocation.getName());
-                    Log.i(TAG, " " + geoLocation.getFormattedAddress());
-                    Log.i(TAG, " " + String.valueOf(geoLocation.getLocation().getLng()));
-                    Log.i(TAG, " " + String.valueOf(geoLocation.getLocation().getLat()));
+                    Log.d(TAG, geoLocation.getName());
+                    Log.d(TAG, " " + geoLocation.getFormattedAddress());
+                    Log.d(TAG, " " + String.valueOf(geoLocation.getLocation().getLng()));
+                    Log.d(TAG, " " + String.valueOf(geoLocation.getLocation().getLat()));
                 }
             }
             catch (Exception e) {
                 return e.getLocalizedMessage();
             }
             return text;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            setLocations(list);
+            Iterator<GeoLocation> iterator = list.iterator();
+            while (iterator.hasNext()) {
+                GeoLocation geoLocation = iterator.next();
+                LatLng pos = new LatLng(geoLocation.getLocation().getLat(), geoLocation.getLocation().getLng());
+                map.addMarker(new MarkerOptions().position(pos).title(geoLocation.getName()));
+            }
         }
     }
 
@@ -94,7 +127,7 @@ public class MainActivity extends FragmentActivity {
 
         GooglePlayServicesUtil.isGooglePlayServicesAvailable(getApplicationContext());
 
-        GoogleMap map = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map)).getMap();
+        map = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map)).getMap();
 
         LocationManager locationManager;
         String svcName = Context.LOCATION_SERVICE;
@@ -110,6 +143,7 @@ public class MainActivity extends FragmentActivity {
         String provider = locationManager.getBestProvider(criteria, true);
 
         Location location = locationManager.getLastKnownLocation(provider);
+        Log.i(TAG, "CURRENT LOCATION");
         Log.i(TAG, "Latitude = " + location.getLatitude());
         Log.i(TAG, "Longitude = " + location.getLongitude());
 
@@ -127,10 +161,10 @@ public class MainActivity extends FragmentActivity {
                         Address address = addresses.get(0);
 
                         for (int i = 0; i < address.getMaxAddressLineIndex(); i++)
-                            sb.append(address.getAddressLine(i)).append("\n");
+                            sb.append(address.getAddressLine(i)).append(" ");
 
-                        sb.append(address.getLocality()).append("\n");
-                        sb.append(address.getPostalCode()).append("\n");
+                        sb.append(address.getLocality()).append("");
+                        sb.append(address.getPostalCode()).append(" ");
                         sb.append(address.getCountryName());
                     }
                     Log.i(TAG, "Address: " + sb.toString());
@@ -153,41 +187,7 @@ public class MainActivity extends FragmentActivity {
         map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
         // Use gasp-mongo REST service
-        new LongRunningGetIO().execute();
-
-        List<String> restaurants = new ArrayList<String>();
-        restaurants.add("367 State Street, Los Altos");
-        restaurants.add("236 Central Plaza Los Altos, CA");
-        restaurants.add("161 Main St  Los Altos, CA");
-
-        List<String> names = new ArrayList<String>();
-        names.add("Peet's Coffee");
-        names.add("Sumika Grill");
-        names.add("Mikado Restaurant");
-
-        try {
-            Geocoder gc = new Geocoder(this, Locale.getDefault());
-            List<Address> addresses = null;
-
-            for (int i = 0; i < names.size(); i++) {
-                String restaurantName = names.get(i);
-                String streetAddress = restaurants.get(i);
-
-                // Use Geocoder to find full address + lat/long details
-                addresses = gc.getFromLocationName(streetAddress, 1);
-
-                if (addresses.size() > 0) {
-                    Log.i(TAG, restaurantName + ": " + addresses.get(0).toString());
-
-                    // Add marker to map
-                    LatLng pos = new LatLng(addresses.get(0).getLatitude(), addresses.get(0).getLongitude());
-                    map.addMarker(new MarkerOptions().position(pos).title(restaurantName));
-                }
-            }
-        }
-        catch (Exception e) {
-            Log.d(TAG, "Error from Geocoder: Exception = " + e.getMessage());
-        }
+        new GaspLocationService().execute();
     }
 
     @Override
