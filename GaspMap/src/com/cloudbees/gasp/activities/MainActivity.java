@@ -1,21 +1,24 @@
-package com.cloudbees.gasp;
+package com.cloudbees.gasp.activities;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.lang.reflect.Type;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 
-import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
 
 import com.cloudbees.gasp.R;
+import com.cloudbees.gasp.R.id;
+import com.cloudbees.gasp.R.layout;
+import com.cloudbees.gasp.R.menu;
 import com.cloudbees.gasp.model.GeoLocation;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -43,80 +46,46 @@ import android.view.Menu;
 public class MainActivity extends FragmentActivity {
     private static final String TAG = MainActivity.class.getName();
     private static final String gaspURL = "http://gasp-mongo.mqprichard.cloudbees.net/locations/get";
-
-    private List<GeoLocation> locations = null;
     private GoogleMap map = null;
 
-    public GoogleMap getMap() {
-        return map;
-    }
-
-    public void setMap(GoogleMap map) {
-        this.map = map;
-    }
-
-    public List<GeoLocation> getLocations() {
-        return locations;
-    }
-
-    public void setLocations(List<GeoLocation> locations) {
-        this.locations = locations;
-    }
-
-    private class GaspLocationService extends AsyncTask<Void, Void, String> {
+    private class LocationMapper extends AsyncTask<Void, Void, String> {
         private List<GeoLocation> list;
-
-        protected String getASCIIContentFromEntity(HttpEntity entity) throws IllegalStateException, IOException {
-            InputStream in = entity.getContent();
-            StringBuffer out = new StringBuffer();
-            int n = 1;
-            while (n > 0) {
-                byte[] b = new byte[4096];
-                n = in.read(b);
-                if (n > 0) out.append(new String(b, 0, n));
-            }
-            return out.toString();
-        }
 
         @Override
         protected String doInBackground(Void... params) {
             HttpClient httpClient = new DefaultHttpClient();
             HttpContext localContext = new BasicHttpContext();
+            ResponseHandler<String> handler = new BasicResponseHandler();
             HttpGet httpGet = new HttpGet(gaspURL);
-            String text = null;
+            String responseBody = null;
+            
             try {
                 HttpResponse response = httpClient.execute(httpGet, localContext);
-                HttpEntity entity = response.getEntity();
-                text = getASCIIContentFromEntity(entity);
-                Log.d(TAG, "Gasp Locations");
-                Log.d(TAG, text);
+                responseBody = handler.handleResponse(response); 
+
+                Log.d(TAG, responseBody);
 
                 Gson gson = new Gson();
                 Type type = new TypeToken<List<GeoLocation>>() {}.getType();
-                list = gson.fromJson(text, type);
-                Iterator<GeoLocation> iterator = list.iterator();
-                while (iterator.hasNext()) {
-                    GeoLocation geoLocation = iterator.next();
-                    Log.d(TAG, geoLocation.getName());
-                    Log.d(TAG, " " + geoLocation.getFormattedAddress());
-                    Log.d(TAG, " " + String.valueOf(geoLocation.getLocation().getLng()));
-                    Log.d(TAG, " " + String.valueOf(geoLocation.getLocation().getLat()));
-                }
+                list = gson.fromJson(responseBody, type);
             }
             catch (Exception e) {
-                return e.getLocalizedMessage();
+                Log.e(TAG, e.getLocalizedMessage());
             }
-            return text;
+            return responseBody;
         }
 
         @Override
         protected void onPostExecute(String result) {
-            setLocations(list);
             Iterator<GeoLocation> iterator = list.iterator();
             while (iterator.hasNext()) {
                 GeoLocation geoLocation = iterator.next();
                 LatLng pos = new LatLng(geoLocation.getLocation().getLat(), geoLocation.getLocation().getLng());
                 map.addMarker(new MarkerOptions().position(pos).title(geoLocation.getName()));
+                Log.d(TAG, geoLocation.getName()
+                           + " " + geoLocation.getFormattedAddress()
+                           + " " + String.valueOf(geoLocation.getLocation().getLng())
+                           + " " + String.valueOf(geoLocation.getLocation().getLat()));
             }
         }
     }
@@ -187,8 +156,7 @@ public class MainActivity extends FragmentActivity {
                                                           .build();
         map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
-        // Use gasp-mongo REST service
-        new GaspLocationService().execute();
+        new LocationMapper().execute();
     }
 
     @Override
