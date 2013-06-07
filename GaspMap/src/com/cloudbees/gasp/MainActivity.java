@@ -142,16 +142,14 @@ public class MainActivity extends FragmentActivity {
         }
 
         map.setMyLocationEnabled(true);
-        // map.addMarker(new MarkerOptions().position(
-        // new LatLng(location.getLatitude(),
-        // location.getLongitude())).title("My Location"));
 
         LatLng myLocation = new LatLng(location.getLatitude(), location.getLongitude());
-        // map.addMarker(new
-        // MarkerOptions().position(myLocation).title("My Location"));
-
-        CameraPosition cameraPosition = new CameraPosition.Builder().target(myLocation).zoom(16).bearing(0).tilt(0)
-                .build();
+        CameraPosition cameraPosition = new CameraPosition.Builder()
+                                                          .target(myLocation)
+                                                          .zoom(16)
+                                                          .bearing(0)
+                                                          .tilt(0)
+                                                          .build();
         map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
         // Use gasp-mongo REST service
@@ -190,9 +188,6 @@ public class MainActivity extends FragmentActivity {
         catch (Exception e) {
             Log.d(TAG, "Error from Geocoder: Exception = " + e.getMessage());
         }
-        // locationManager.requestLocationUpdates(provider, 2000, 10,
-        // locationListener);
-
     }
 
     @Override
