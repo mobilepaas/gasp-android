@@ -1,4 +1,4 @@
-package com.cloudbees.gasp.activities;
+package com.cloudbees.gasp.activity;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -16,6 +16,7 @@ import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
 
 import android.content.Context;
+import android.content.Intent;
 import android.location.Address;
 import android.location.Criteria;
 import android.location.Geocoder;
@@ -26,6 +27,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 
 import com.cloudbees.gasp.R;
 import com.cloudbees.gasp.model.GeoLocation;
@@ -155,11 +157,26 @@ public class MainActivity extends FragmentActivity {
         new LocationMapper().execute();
     }
 
+    //@Override
+    //public boolean onCreateOptionsMenu(Menu menu) {
+    //    // Inflate the menu; this adds items to the action bar if it is present.
+    //    getMenuInflater().inflate(R.menu.main, menu);
+    //    return true;
+    //}
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
+        getMenuInflater().inflate(R.menu.options_menu_settings, menu);
         return true;
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Single menu item only - need to handle multiple items if added
+        Intent intent = new Intent();
+        intent.setClass(MainActivity.this, SetPreferencesActivity.class);
+        startActivityForResult(intent, 0); 
+        
+        return true;
+    }
 }
