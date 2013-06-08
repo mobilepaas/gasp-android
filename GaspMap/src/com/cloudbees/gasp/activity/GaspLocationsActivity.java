@@ -41,8 +41,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-public class MainActivity extends FragmentActivity {
-    private static final String TAG = MainActivity.class.getName();
+public class GaspLocationsActivity extends FragmentActivity {
+    private static final String TAG = GaspLocationsActivity.class.getName();
     private static final String gaspURL = "http://gasp-mongo.mqprichard.cloudbees.net/locations/get";
     private GoogleMap map = null;
 
@@ -91,7 +91,7 @@ public class MainActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_locations);
 
         GooglePlayServicesUtil.isGooglePlayServicesAvailable(getApplicationContext());
 
@@ -157,13 +157,6 @@ public class MainActivity extends FragmentActivity {
         new LocationMapper().execute();
     }
 
-    //@Override
-    //public boolean onCreateOptionsMenu(Menu menu) {
-    //    // Inflate the menu; this adds items to the action bar if it is present.
-    //    getMenuInflater().inflate(R.menu.main, menu);
-    //    return true;
-    //}
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.options_menu_settings, menu);
@@ -174,7 +167,7 @@ public class MainActivity extends FragmentActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         // Single menu item only - need to handle multiple items if added
         Intent intent = new Intent();
-        intent.setClass(MainActivity.this, SetPreferencesActivity.class);
+        intent.setClass(GaspLocationsActivity.this, SetPreferencesActivity.class);
         startActivityForResult(intent, 0); 
         
         return true;
