@@ -6,12 +6,17 @@ buildscript {
         classpath 'com.android.tools.build:gradle:0.4'
     }
 }
+
 apply plugin: 'android'
 
+repositories {
+    mavenCentral()
+}
+
 dependencies {
-    compile files('libs/android-support-v4.jar')
-    compile files('libs/gson-2.2.3.jar')
-    compile files('libs/google-play-services_lib/libs/google-play-services.jar')
+    compile 'com.google.code.gson:gson:2.2.4'
+    compile 'com.android.support:support-v4:13.0.0'
+    compile 'com.google.android.gms:play-services:3.1.36'
 }
 
 android {
