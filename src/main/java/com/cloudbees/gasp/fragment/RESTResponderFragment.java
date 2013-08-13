@@ -32,7 +32,7 @@ import com.cloudbees.gasp.service.RESTService;
  */
 public abstract class RESTResponderFragment extends Fragment {
     
-    private ResultReceiver mReceiver;
+    private final ResultReceiver mReceiver;
     
     // We are going to use a constructor here to make our ResultReceiver,
     // but be careful because Fragments are required to have only zero-arg

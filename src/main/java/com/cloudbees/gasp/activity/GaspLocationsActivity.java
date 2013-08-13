@@ -53,7 +53,6 @@ import org.apache.http.protocol.HttpContext;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 
@@ -91,15 +90,13 @@ public class GaspLocationsActivity extends FragmentActivity {
 
         @Override
         protected void onPostExecute(String result) {
-            Iterator<GeoLocation> iterator = list.iterator();
-            while (iterator.hasNext()) {
-                GeoLocation geoLocation = iterator.next();
+            for (GeoLocation geoLocation : list) {
                 LatLng pos = new LatLng(geoLocation.getLocation().getLat(), geoLocation.getLocation().getLng());
                 map.addMarker(new MarkerOptions().position(pos).title(geoLocation.getName()));
                 Log.d(TAG, geoLocation.getName()
-                           + " " + geoLocation.getFormattedAddress()
-                           + " " + String.valueOf(geoLocation.getLocation().getLng())
-                           + " " + String.valueOf(geoLocation.getLocation().getLat()));
+                        + " " + geoLocation.getFormattedAddress()
+                        + " " + String.valueOf(geoLocation.getLocation().getLng())
+                        + " " + String.valueOf(geoLocation.getLocation().getLat()));
             }
         }
     }

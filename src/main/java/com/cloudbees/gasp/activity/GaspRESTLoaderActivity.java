@@ -128,9 +128,7 @@ public class GaspRESTLoaderActivity extends Activity
                                                0.005 ));
 
             List<GeoLocation> locationList = locations.execute().get();
-            Iterator<GeoLocation> iterator = locationList.iterator();
-            while(iterator.hasNext()){
-                GeoLocation geoLocation = iterator.next();
+            for (GeoLocation geoLocation : locationList) {
                 Log.i(TAG, geoLocation.getName());
                 Log.i(TAG, " " + geoLocation.getFormattedAddress());
                 Log.i(TAG, " " + String.valueOf(geoLocation.getLocation().getLng()));
@@ -233,9 +231,7 @@ public class GaspRESTLoaderActivity extends Activity
                 Gson gson = new Gson();
                 Type type = new TypeToken<List<GeoLocation>>(){}.getType();
                 List<GeoLocation> list = gson.fromJson(text, type);
-                Iterator<GeoLocation> iterator = list.iterator();
-                while(iterator.hasNext()){
-                    GeoLocation geoLocation = iterator.next();
+                for (GeoLocation geoLocation : list) {
                     Log.d(TAG, geoLocation.getName());
                     Log.d(TAG, " " + geoLocation.getFormattedAddress());
                     Log.d(TAG, " " + String.valueOf(geoLocation.getLocation().getLng()));

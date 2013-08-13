@@ -44,7 +44,7 @@ import java.util.List;
  * @author Mark Prichard
  */
 public class TwitterSearchResponderFragment extends RESTResponderFragment {
-    private static String TAG = TwitterSearchResponderFragment.class.getName();
+    private static final String TAG = TwitterSearchResponderFragment.class.getName();
     
     // We cache our stored tweets here so that we can return right away
     // on multiple calls to setTweets() during the Activity lifecycle events (such

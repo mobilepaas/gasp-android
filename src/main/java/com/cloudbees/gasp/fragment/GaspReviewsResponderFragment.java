@@ -45,7 +45,7 @@ import java.util.List;
  * @author Mark Prichard
  */
 public class GaspReviewsResponderFragment extends RESTResponderFragment {
-    private static String TAG = GaspReviewsResponderFragment.class.getName();
+    private static final String TAG = GaspReviewsResponderFragment.class.getName();
     
     private ArrayAdapter<String> mAdapter;
     private List<String> mList;
