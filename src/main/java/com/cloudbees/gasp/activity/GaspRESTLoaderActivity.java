@@ -220,8 +220,8 @@ public class GaspRESTLoaderActivity extends Activity
             HttpClient httpClient = new DefaultHttpClient();
             HttpContext localContext = new BasicHttpContext();
             HttpGet httpGet = new HttpGet(
-                    "http://gasp-mongo.mqprichard.cloudbees.net/locations/get");
-            String text = null;
+                    "http://gasp-mongo.partnerdemo.cloudbees.net/locations/get");
+            String text;
             try {
                 HttpResponse response = httpClient.execute(httpGet,
                         localContext);
@@ -247,7 +247,7 @@ public class GaspRESTLoaderActivity extends Activity
     
     private class LocationsRequest extends AsyncTask<Void, Void, List<GeoLocation>> {
         
-        private final String requestURI = "http://gasp-mongo.mqprichard.cloudbees.net/locations/geocenter";
+        private final String requestURI = "http://gasp-mongo.partnerdemo.cloudbees.net/locations/geocenter";
         private String requestBody = null;
         private String responseBody = null;
         private List<GeoLocation> geoLocations = null;

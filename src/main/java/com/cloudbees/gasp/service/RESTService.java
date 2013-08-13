@@ -60,11 +60,11 @@ public class RESTService extends IntentService {
     public static final int PUT    = 0x3;
     public static final int DELETE = 0x4;
     
-    public static final String EXTRA_HTTP_VERB       = "net.neilgoodman.android.restservicetutorial.EXTRA_HTTP_VERB";
-    public static final String EXTRA_PARAMS          = "net.neilgoodman.android.restservicetutorial.EXTRA_PARAMS";
-    public static final String EXTRA_RESULT_RECEIVER = "net.neilgoodman.android.restservicetutorial.EXTRA_RESULT_RECEIVER";
+    public static final String EXTRA_HTTP_VERB       = "com.cloudbees.gasp.EXTRA_HTTP_VERB";
+    public static final String EXTRA_PARAMS          = "com.cloudbees.gasp.EXTRA_PARAMS";
+    public static final String EXTRA_RESULT_RECEIVER = "com.cloudbees.gasp.EXTRA_RESULT_RECEIVER";
     
-    public static final String REST_RESULT = "net.neilgoodman.android.restservicetutorial.REST_RESULT";
+    public static final String REST_RESULT = "com.cloudbees.gasp.REST_RESULT";
 
     public RESTService() {
         super(TAG);

@@ -4,6 +4,6 @@
             android:key="gasp_endpoint_uri"
             android:title="Gasp! Server Endpoint" 
             android:dialogTitle="Gasp! Server Endpoint"             
-            android:defaultValue="http://gasp.mqprichard.cloudbees.net/reviews" 
+            android:defaultValue="http://gasp.partnerdemo.cloudbees.net/reviews"
         />
 </PreferenceScreen>
