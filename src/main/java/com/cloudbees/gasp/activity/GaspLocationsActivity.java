@@ -58,7 +58,7 @@ import java.util.Locale;
 
 public class GaspLocationsActivity extends FragmentActivity {
     private static final String TAG = GaspLocationsActivity.class.getName();
-    private static final String gaspURL = "http://gasp-mongo.mqprichard.cloudbees.net/locations/get";
+    private static final String gaspURL = "http://gasp-mongo.partnerdemo.cloudbees.net/locations/get";
     private GoogleMap map = null;
 
     private class LocationMapper extends AsyncTask<Void, Void, String> {
