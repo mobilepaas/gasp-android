@@ -1,8 +1,20 @@
-package com.cloudbees.gasp.fragment;
+/*
+ * Copyright (c) 2013 Mark Prichard, CloudBees
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+package com.cloudbees.gasp.fragment;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -21,6 +33,17 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+/**
+ * Closely modeled on Neil Goodman's Android REST tutorials
+ * https://github.com/posco2k8/rest_service_tutorial
+ * https://github.com/posco2k8/rest_loader_tutorial.git
+ *
+ * @author Mark Prichard
+ */
 public class GaspReviewsResponderFragment extends RESTResponderFragment {
     private static String TAG = GaspReviewsResponderFragment.class.getName();
     

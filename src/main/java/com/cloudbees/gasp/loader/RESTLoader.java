@@ -1,11 +1,26 @@
+/*
+ * Copyright (c) 2013 Mark Prichard, CloudBees
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.cloudbees.gasp.loader;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.List;
+import android.content.AsyncTaskLoader;
+import android.content.Context;
+import android.net.Uri;
+import android.os.Bundle;
+import android.util.Log;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -22,12 +37,20 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
-import android.content.Context;
-import android.net.Uri;
-import android.os.Bundle;
-import android.content.AsyncTaskLoader;
-import android.util.Log;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.List;
 
+/**
+ * Closely modeled on Neil Goodman's Android REST tutorials
+ * https://github.com/posco2k8/rest_service_tutorial
+ * https://github.com/posco2k8/rest_loader_tutorial.git
+ *
+ * @author Mark Prichard
+ */
 public class RESTLoader extends AsyncTaskLoader<RESTLoader.RESTResponse> {
     private static final String TAG = RESTLoader.class.getName();
     
